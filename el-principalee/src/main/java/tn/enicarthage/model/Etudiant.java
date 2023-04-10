@@ -8,6 +8,8 @@ import java.util.List;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -31,9 +33,14 @@ import lombok.ToString;
 @DynamicUpdate
 @Table(name="etudiant")
 public class Etudiant implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="cin") //nom de la colonne
-	private int cin;
+	private String cin;
 	
 	@Column(name="nom") 
 	private String nom;
@@ -49,6 +56,7 @@ public class Etudiant implements Serializable  {
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="dateNaiss") 
+	@JsonFormat(pattern ="dd/MM/yyyy")
 	private Date dateNaiss;
 	
 	@Column(name="numInsc") 

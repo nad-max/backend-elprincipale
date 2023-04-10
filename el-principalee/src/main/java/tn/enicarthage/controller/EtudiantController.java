@@ -1,19 +1,31 @@
 package tn.enicarthage.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import tn.enicarthage.model.Etud;
+import tn.enicarthage.model.Etudiant;
 @RequestMapping("/student")
 public interface EtudiantController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> loginE(@RequestBody Etud etudiantData);
 	
+	/*@PostMapping("/add")
+	public ResponseEntity<String> addNewEtudiant(@RequestBody Map<String,String> requestMap);*/
+	
 	@PostMapping("/add")
-	public ResponseEntity<String> addNewEtudiant(@RequestBody Map<String,String> requestMap);
+	public Etudiant addNewEtudiant(@RequestBody Etudiant etudiant);
+	@GetMapping("/get-all")
+	public List<Etudiant> getAllEtudiant();
+	
+	@PutMapping("/update")
+	public Etudiant updateEtudiant(@RequestBody Etudiant etudiant);
 }

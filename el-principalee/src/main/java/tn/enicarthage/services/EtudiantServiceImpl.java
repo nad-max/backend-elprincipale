@@ -1,5 +1,6 @@
 package tn.enicarthage.services;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import lombok.extern.slf4j.Slf4j;
 import tn.enicarthage.model.Etud;
 import tn.enicarthage.model.Etudiant;
 import tn.enicarthage.repositories.EtudiantRepo;
 
+@Slf4j
 @Service
 public class EtudiantServiceImpl implements EtudiantService{
 	@Autowired
@@ -51,7 +54,9 @@ public class EtudiantServiceImpl implements EtudiantService{
 	}
 	
 	
-	@Override
+	/*
+	 * ***********************************TO DELETE**************************************
+	 * @Override
 	public ResponseEntity<String> addNewEtudiant(Map<String, String> requestMap) {
 		try {
 			if(validateEtudiantMap(requestMap, false)){
@@ -66,10 +71,6 @@ public class EtudiantServiceImpl implements EtudiantService{
 		}
 		return new ResponseEntity<String>("{\"message\":\"something went wrong\"}",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	
-	
-	
 	
 	private boolean validateEtudiantMap(Map<String, String> requestMap, boolean validateId) {
 		if(requestMap.containsKey("email")) {
@@ -102,6 +103,45 @@ public class EtudiantServiceImpl implements EtudiantService{
 
 
 		return etudiant;
+	}*/
+
+
+	@Override
+	public Etudiant addNewEtudServ(Etudiant etudiant) {
+		log.info("Service: Etudiant addNewEtudServ(): "+ etudiant.toString());
+		//TODO Affecter un mot de passe aléatoire(ou num cin)
+		etudiant.setPassword(etudiant.getCin()); //dans ce cas c'est num CIN
+		repo.save(etudiant);
+		return etudiant;
+	}
+
+
+	@Override
+	public List<Etudiant> getAllEtudiant() {
+		// TODO Auto-generated method stub
+		log.info("Service: Etudiant getAllEtudiant()");
+		return repo.findAll();
+	}
+
+
+	@Override
+	public Etudiant updateEtudiant(Etudiant etudiant) {
+		// TODO Auto-generated method stub
+		//Cette methode mettera à jour les champs suivants:
+		//(nom,prenom,numTel,email,dateNaiss)
+		Etudiant etudMAJ = repo.findByCin(etudiant.getCin());
+		if(etudMAJ == null) {
+			log.error("Service: Etudiant updateEtudiant(): Pas d'étudiant avec ce CIN");
+			return null;
+		}
+		etudMAJ.setNom(etudiant.getNom());
+		etudMAJ.setPrenom(etudiant.getPrenom());
+		etudMAJ.setNumTel(etudiant.getNumTel());
+		etudMAJ.setEmail(etudiant.getEmail());
+		etudMAJ.setDateNaiss(etudiant.getDateNaiss());
+		repo.save(etudMAJ);
+		log.info("Service: Etudiant updateEtudiant(): Etudiant màj");
+		return etudMAJ;
 	}
 	
 }
