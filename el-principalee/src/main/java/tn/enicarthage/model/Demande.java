@@ -29,7 +29,10 @@ import lombok.ToString;
 @Entity
 @Table(name="demande")
 
-public class Demande {
+public class Demande implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //pour l'auto incrémentation de la cle primaire
 	@Column(name="idDemande") 
