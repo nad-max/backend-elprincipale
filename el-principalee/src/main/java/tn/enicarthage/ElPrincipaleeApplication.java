@@ -8,7 +8,7 @@ public class ElPrincipaleeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ElPrincipaleeApplication.class, args);
-		System.out.println("app is running");
+		System.out.println("app is running...");
 	}
 
 }
