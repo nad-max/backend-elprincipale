@@ -1,5 +1,6 @@
 package tn.enicarthage.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.enicarthage.model.Etud;
+import tn.enicarthage.model.Etudiant;
 import tn.enicarthage.services.EtudiantService;
 @RestController
 public class EtudiantControllerImpl implements EtudiantController {
@@ -32,7 +34,7 @@ public class EtudiantControllerImpl implements EtudiantController {
 		}
 	
 	
-	@Override
+	/*@Override
 	public ResponseEntity<String> addNewEtudiant(Map<String, String> requestMap) {
 		try {
 			return etuService.addNewEtudiant(requestMap);
@@ -41,5 +43,27 @@ public class EtudiantControllerImpl implements EtudiantController {
 		}
 		return new ResponseEntity<String>("{\"message\":\"something went wrong\"}",HttpStatus.INTERNAL_SERVER_ERROR);
 
+	}*/
+
+
+	@Override
+	public Etudiant addNewEtudiant(@RequestBody Etudiant etudiant) {
+		Etudiant etud = etuService.addNewEtudServ(etudiant);
+		return etud;
+	}
+
+
+	@Override
+	public List<Etudiant> getAllEtudiant() {
+		// TODO Auto-generated method stub
+		List<Etudiant> list = etuService.getAllEtudiant();
+		return list;
+	}
+
+
+	@Override
+	public Etudiant updateEtudiant(Etudiant etud) {
+		Etudiant etudMAJ = etuService.updateEtudiant(etud);
+		return etudMAJ;
 	}
 }
