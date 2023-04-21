@@ -54,7 +54,7 @@ public class Reclamation implements Serializable {
 	
 	// jointure avec etudiant
 	@ManyToOne
-	@JoinColumn(name = "idEtudiant")
+	@JoinColumn(name = "etud_cin",nullable = false)
 	private Etudiant etudiant;
 
 }
