@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import tn.enicarthage.model.Etud;
 import tn.enicarthage.model.Etudiant;
@@ -15,4 +16,5 @@ public interface EtudiantService {
 	public Etudiant addNewEtudServ(Etudiant etudiant);
 	public List<Etudiant> getAllEtudiant();
 	public Etudiant updateEtudiant(Etudiant etudiant);
+	public boolean uploadEtudiants(MultipartFile file) throws Exception;
 }

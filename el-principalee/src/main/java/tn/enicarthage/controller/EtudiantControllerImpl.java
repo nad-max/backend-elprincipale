@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import tn.enicarthage.model.Etud;
 import tn.enicarthage.model.Etudiant;
@@ -65,5 +66,12 @@ public class EtudiantControllerImpl implements EtudiantController {
 	public Etudiant updateEtudiant(Etudiant etud) {
 		Etudiant etudMAJ = etuService.updateEtudiant(etud);
 		return etudMAJ;
+	}
+
+
+	@Override
+	public String uploadFromCsv(MultipartFile file) throws Exception {
+		boolean uploadSuccess = etuService.uploadEtudiants(file);
+		return "Successful upload";
 	}
 }

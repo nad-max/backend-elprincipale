@@ -1,5 +1,11 @@
 package tn.enicarthage.services;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.csv.CsvParser;
+import com.univocity.parsers.csv.CsvParserSettings;
 
 import lombok.extern.slf4j.Slf4j;
 import tn.enicarthage.model.Etud;
@@ -142,6 +153,44 @@ public class EtudiantServiceImpl implements EtudiantService{
 		repo.save(etudMAJ);
 		log.info("Service: Etudiant updateEtudiant(): Etudiant màj");
 		return etudMAJ;
+	}
+
+
+	@Override
+	public boolean uploadEtudiants(MultipartFile file) throws Exception {
+		List<Etudiant> listEtud = new ArrayList<Etudiant>();
+		InputStream inputStream = file.getInputStream();
+		CsvParserSettings settings = new CsvParserSettings();
+		settings.setHeaderExtractionEnabled(true);
+		CsvParser parser = new CsvParser(settings);
+		List<Record> parseAllRecords = parser.parseAllRecords(inputStream);
+		parseAllRecords.forEach(record -> {
+			Etudiant etudiant = new Etudiant();
+			etudiant.setCin(record.getString("cin"));
+			etudiant.setNom(record.getString("nom"));
+			etudiant.setPrenom(record.getString("prenom"));
+			etudiant.setNumTel(record.getInt("numTel"));
+			etudiant.setEmail(record.getString("email"));
+			String sDate = record.getString("dateNaiss");
+			Date date = null;
+			try {
+				date = new SimpleDateFormat("dd-MM-yy").parse(sDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+			etudiant.setDateNaiss(date);
+			etudiant.setNumInsc(record.getInt("numInsc"));
+			etudiant.setNiveau(record.getInt("niveau"));
+			etudiant.setSpecialite(record.getString("specialite"));
+			etudiant.setGroupe(record.getString("groupe"));
+			etudiant.setParcours(record.getString("parcours"));
+			etudiant.setPassword(etudiant.getCin());
+			listEtud.add(etudiant);
+		});
+		repo.saveAll(listEtud);
+		
+		return true;
 	}
 	
 }
