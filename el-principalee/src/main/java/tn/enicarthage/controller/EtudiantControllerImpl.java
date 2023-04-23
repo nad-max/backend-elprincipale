@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import tn.enicarthage.auth.AuthenticationRequest;
+import tn.enicarthage.auth.AuthenticationResponse;
 import tn.enicarthage.model.Etud;
 import tn.enicarthage.model.Etudiant;
 import tn.enicarthage.services.EtudiantService;
@@ -19,18 +21,12 @@ public class EtudiantControllerImpl implements EtudiantController {
 	@Autowired
 	private EtudiantService etuService;
 	
-	public ResponseEntity<?> loginE(@RequestBody Etud etudiantData){
+	public ResponseEntity<AuthenticationResponse> loginEtud(@RequestBody AuthenticationRequest etudiantData){
 		
-		//public ResponseEntity<String> loginEtudiant(Map<String, String>  request){
-		   
-			try {
-				 return etuService.loginEtudiant(etudiantData);
+	
+				 return ResponseEntity.ok(etuService.loginEtudiant(etudiantData));
 				
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			//return new ResponseEntity<String>("{\"message\":\"something went wrong\"}",HttpStatus.INTERNAL_SERVER_ERROR);
-			return(ResponseEntity<?>) ResponseEntity.internalServerError();
+			
 
 		}
 	

@@ -1,12 +1,16 @@
 package tn.enicarthage.model;
 
 import java.io.Serializable;
-
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -32,7 +36,7 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Table(name="etudiant")
-public class Etudiant implements Serializable  {
+public class Etudiant implements Serializable, UserDetails  {
 	/**
 	 * 
 	 */
@@ -76,5 +80,43 @@ public class Etudiant implements Serializable  {
 	
 	@Column(name="parcours") 
 	private String parcours;
+	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	
 
 }

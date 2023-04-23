@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import tn.enicarthage.auth.AuthenticationRequest;
 import tn.enicarthage.model.Etud;
 import tn.enicarthage.model.Etudiant;
 @RequestMapping("/student")
 public interface EtudiantController {
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> loginE(@RequestBody Etud etudiantData);
+	public ResponseEntity<?> loginEtud(@RequestBody AuthenticationRequest etudiantData);
 	
 	/*@PostMapping("/add")
 	public ResponseEntity<String> addNewEtudiant(@RequestBody Map<String,String> requestMap);*/

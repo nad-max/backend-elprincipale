@@ -13,6 +13,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,48 +24,24 @@ import com.univocity.parsers.common.record.Record;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tn.enicarthage.auth.AuthenticationRequest;
+import tn.enicarthage.auth.AuthenticationResponse;
+import tn.enicarthage.config.JwtService;
 import tn.enicarthage.model.Etud;
 import tn.enicarthage.model.Etudiant;
 import tn.enicarthage.repositories.EtudiantRepo;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class EtudiantServiceImpl implements EtudiantService{
 	@Autowired
 	private EtudiantRepo repo;
-	
-	
-	public ResponseEntity<?> loginEtudiant(@RequestBody Etud etudiantData ) {
-
-		// TODO Auto-generated method stub
-		
-		
-		try {
-			System.out.println(etudiantData);
-			Etudiant etud = repo.findByEmail(etudiantData.getEmail());
-			if(etud != null) {
-					
-					Optional<Etudiant>	etudiant1 = repo.findOneByEmailAndPassword(etudiantData.getEmail(),etudiantData.getPassword());
-					
-					if (etudiant1.isPresent()) {
-						return new ResponseEntity<String>("{\"message\":\"correct login and password\"}",HttpStatus.ACCEPTED);
-					}
-					else {
-
-						return new ResponseEntity<String>("{\"message\":\"login failed\"}",HttpStatus.INTERNAL_SERVER_ERROR);
-					}
-			}
-			else {
-				return new ResponseEntity<String>("{\"message\":\" Email not exits\"}",HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return new ResponseEntity<String>("{\"message\":\"something went wrong\"}",HttpStatus.INTERNAL_SERVER_ERROR);
-
-	}
+	private final JwtService jwtService;
+	private final AuthenticationManager authManager;
+	private final PasswordEncoder passwordEncoder;
 	
 	
 	/*
@@ -121,7 +100,7 @@ public class EtudiantServiceImpl implements EtudiantService{
 	public Etudiant addNewEtudServ(Etudiant etudiant) {
 		log.info("Service: Etudiant addNewEtudServ(): "+ etudiant.toString());
 		//TODO Affecter un mot de passe aléatoire(ou num cin)
-		etudiant.setPassword(etudiant.getCin()); //dans ce cas c'est num CIN
+		etudiant.setPassword(passwordEncoder.encode(etudiant.getCin())); //dans ce cas c'est num CIN
 		repo.save(etudiant);
 		return etudiant;
 	}
@@ -163,7 +142,7 @@ public class EtudiantServiceImpl implements EtudiantService{
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setHeaderExtractionEnabled(true);
 		CsvParser parser = new CsvParser(settings);
-		List<Record> parseAllRecords = parser.parseAllRecords(inputStream);
+		List<Record> parseAllRecords = parser.parseAllRecords(inputStream,"ISO-8859-1");
 		parseAllRecords.forEach(record -> {
 			Etudiant etudiant = new Etudiant();
 			etudiant.setCin(record.getString("cin"));
@@ -185,12 +164,26 @@ public class EtudiantServiceImpl implements EtudiantService{
 			etudiant.setSpecialite(record.getString("specialite"));
 			etudiant.setGroupe(record.getString("groupe"));
 			etudiant.setParcours(record.getString("parcours"));
-			etudiant.setPassword(etudiant.getCin());
+			etudiant.setPassword(passwordEncoder.encode(etudiant.getCin()));
 			listEtud.add(etudiant);
 		});
 		repo.saveAll(listEtud);
 		
 		return true;
+	}
+
+
+	@Override
+	public AuthenticationResponse loginEtudiant(AuthenticationRequest etudiantData) {
+		authManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+						etudiantData.getEmail(), 
+						etudiantData.getPassword()));
+		var etudiant = repo.findByEmail(etudiantData.getEmail())
+				.orElseThrow();
+		var jwtToken = jwtService.generateToken(etudiant);
+		return AuthenticationResponse.builder()
+				.token(jwtToken).build();
 	}
 	
 }
