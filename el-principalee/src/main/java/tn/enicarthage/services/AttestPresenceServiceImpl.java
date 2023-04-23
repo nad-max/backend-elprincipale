@@ -64,7 +64,7 @@ public class AttestPresenceServiceImpl implements AttestPresenceService{
 		
 		
 		try {
-			Document document = new Document(PageSize.A3);
+			Document document = new Document(PageSize.A4);
 			PdfWriter.getInstance(document, new FileOutputStream("D:\\Attestation\\"+fileName+".pdf"));
 			document.open();
 			

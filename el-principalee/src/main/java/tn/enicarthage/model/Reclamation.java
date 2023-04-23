@@ -3,6 +3,9 @@ package tn.enicarthage.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -53,6 +56,7 @@ public class Reclamation implements Serializable {
 	private TypeEtat etatRec;
 	
 	// jointure avec etudiant
+	@JsonIgnoreProperties({"reclamations","demandes"}) //elimine la boucle infinie lors de l'appel (get request)
 	@ManyToOne
 	@JoinColumn(name = "etud_cin",nullable = false)
 	private Etudiant etudiant;

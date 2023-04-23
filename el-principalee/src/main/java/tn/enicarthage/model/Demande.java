@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -68,7 +69,8 @@ public class Demande implements Serializable {
 	private TypeEtat etat;
 	
 	// jointure avec etudiant
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JsonIgnoreProperties({"reclamations","demandes"}) //elimine la boucle infinie lors de l'appel (get request)
+	@ManyToOne
 	@JoinColumn(name = "idEtudiant")
 	private Etudiant etudiant;
 }
