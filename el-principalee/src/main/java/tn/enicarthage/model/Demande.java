@@ -1,8 +1,12 @@
 package tn.enicarthage.model;
 
 import java.io.Serializable;
+
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,14 +50,16 @@ public class Demande implements Serializable {
 	private String raison;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name="dateDemande") 
+	@Column(name="dateDemande")
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern ="dd/MM/yyyy :: HH:mm:ss")
 	private Date dateDemande;
 	
 	@Column(name="raisonRefus") 
 	private String raisonRefus;
 	
-	@Temporal(TemporalType.DATE) //pour stocker la date ds BD sans timezone
+	@Temporal(TemporalType.DATE) 
 	@Column(name="dateReponse") 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern ="dd/MM/yyyy :: HH:mm:ss")
 	private Date dateReponse;
 	
 	
@@ -62,7 +68,7 @@ public class Demande implements Serializable {
 	private TypeEtat etat;
 	
 	// jointure avec etudiant
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "idEtudiant")
 	private Etudiant etudiant;
 }

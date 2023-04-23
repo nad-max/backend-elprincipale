@@ -14,9 +14,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -118,5 +121,14 @@ public class Etudiant implements Serializable, UserDetails  {
 	}
 
 	
+
+	
+	// jointure avec demande
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true ,mappedBy ="etudiant", fetch = FetchType.LAZY)
+	private List<Demande> demandes;
+		
+	// jointure avec reclamation
+	@OneToMany(cascade = CascadeType.ALL,  orphanRemoval = true ,mappedBy ="etudiant", fetch = FetchType.LAZY )
+	private List<Reclamation> reclamations;
 
 }
