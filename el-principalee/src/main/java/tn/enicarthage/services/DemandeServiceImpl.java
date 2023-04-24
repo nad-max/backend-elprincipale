@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.extern.slf4j.Slf4j;
 import tn.enicarthage.model.Demande;
-
-
+import tn.enicarthage.model.Etudiant;
 import tn.enicarthage.model.TypeEtat;
 import tn.enicarthage.repositories.DemandeRepo;
 
@@ -104,6 +103,12 @@ public class DemandeServiceImpl implements DemandeService {
 		}
 		return null;
 		
+	}
+
+	@Override
+	public List<Demande> getDemandeByEtudiant(Etudiant etud) {
+		// TODO Auto-generated method stub
+		return demandeRepo.findByEtudiant(etud);
 	}
 	
 

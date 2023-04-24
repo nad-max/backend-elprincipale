@@ -112,6 +112,12 @@ public class EtudiantServiceImpl implements EtudiantService{
 		log.info("Service: Etudiant getAllEtudiant()");
 		return repo.findAll();
 	}
+	@Override
+	public Etudiant getEtudiantByCin(String cin) {
+		// TODO Auto-generated method stub
+		log.info("Service: Etudiant getEtudiantByCin()");
+		return repo.findByCin(cin);
+	}
 
 
 	@Override
@@ -183,7 +189,15 @@ public class EtudiantServiceImpl implements EtudiantService{
 				.orElseThrow();
 		var jwtToken = jwtService.generateToken(etudiant);
 		return AuthenticationResponse.builder()
-				.token(jwtToken).build();
+				.token(jwtToken)
+				.etudiant(etudiant).build();
+	}
+
+
+	@Override
+	public String deleteEtudiantById(String cinEtudiant) {
+		repo.deleteById(cinEtudiant);
+		return "Etudiant n°"+cinEtudiant+" supprimé";
 	}
 	
 }

@@ -19,4 +19,6 @@ public interface EtudiantService {
 	public List<Etudiant> getAllEtudiant();
 	public Etudiant updateEtudiant(Etudiant etudiant);
 	public boolean uploadEtudiants(MultipartFile file) throws Exception;
+	public String deleteEtudiantById(String cinEtudiant);
+	public Etudiant getEtudiantByCin(String cin);
 }

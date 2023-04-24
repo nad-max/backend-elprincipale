@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import tn.enicarthage.model.Demande;
+import tn.enicarthage.model.Etudiant;
 
 
 
@@ -19,4 +20,6 @@ public interface DemandeService {
 	public List<Demande> getAllDemandeFournie();
 	public Demande setDemandeFournie(int idDemande);
 	public Demande setDemandeRefusee(int idDemande, String raisonRefus);
+	public List<Demande> getDemandeByEtudiant(Etudiant etud);
+
 }

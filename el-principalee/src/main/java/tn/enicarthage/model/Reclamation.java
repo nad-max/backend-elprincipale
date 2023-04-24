@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -48,6 +49,7 @@ public class Reclamation implements Serializable {
 	private String description;
 	
 	@Temporal(TemporalType.DATE) // date d'emission de la reclamation 
+	@JsonFormat(pattern ="dd/MM/yyyy",timezone = "Africa/Tunis")
 	@Column(name="dateReclamation") 
 	private Date dateReclamation;
 	

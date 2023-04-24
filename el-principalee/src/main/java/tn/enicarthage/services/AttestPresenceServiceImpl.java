@@ -42,9 +42,9 @@ public class AttestPresenceServiceImpl implements AttestPresenceService{
 		Calendar calendar = Calendar.getInstance(); // Création d'un objet Calendar
 		calendar.setTime(date); // Définition de la date dans le calendrier
 		int year = calendar.get(Calendar.YEAR); // Récupération de l'année
-		int month = calendar.get(Calendar.MONTH);
+		int month = calendar.get(Calendar.MONTH)+1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		String dd = day+"/"+0+month+"/"+year;
+		String dd = day+"/"+"0"+month+"/"+year;
 		
 		int year1=year-1;
 		
@@ -56,11 +56,11 @@ public class AttestPresenceServiceImpl implements AttestPresenceService{
 		+"Prénom	 : "+attestPresence.getPrenom().toUpperCase()+"\n"+
 		"Née Le	:  "+attestPresence.getDateNaiss()+"\n"+
 		"Titulaire de la Carte d'Identité Nationale N° : "+attestPresence.getCin()+"\n"+
-		"est inscrit(e) en : "+attestPresence.getNiveau()+"ème ANNEE DU DEUXIEME CYCLE"+"\n"+
+		"est inscrit(e) en : "+attestPresence.getNiveau()+((attestPresence.getNiveau()>1)? "ème ANNEE DU DEUXIEME CYCLE":"ère ANNEE DU DEUXIEME CYCLE")+"\n"+
 		"du diplôme	:  "+attestPresence.getParcours()+"\n"+
 		"Spécialité	 : "+attestPresence.getSpecialite()+"\n"+
 		"sous le Numéro  :  "+attestPresence.getNumInsc()+"\n"+
-		"suit réqulièrement ses études pour l'année universitaire encours."+"\n \n     ";
+		"suit régulièrement ses études pour l'année universitaire en cours."+"\n \n     ";
 		
 		
 		try {

@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.enicarthage.model.Demande;
-
+import tn.enicarthage.model.Etudiant;
 import tn.enicarthage.services.DemandeService;
 
 
@@ -66,6 +66,13 @@ public class DemandeControllerImpl implements DemandeController {
 		Demande demande = null;
 		demande = demandeService.setDemandeRefusee(idDemande,raisonRefus);
 		return demande;	
+	}
+
+	@Override
+	public List<Demande> getDemandeByCin(String cin) {
+		Etudiant etud = new Etudiant();
+		etud.setCin(cin);
+		return demandeService.getDemandeByEtudiant(etud);
 	}
 	
 	}

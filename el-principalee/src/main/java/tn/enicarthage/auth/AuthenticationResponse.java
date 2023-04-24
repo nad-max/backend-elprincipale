@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
+import tn.enicarthage.model.Etudiant;
 
 @Data
 @NoArgsConstructor
@@ -12,4 +13,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuthenticationResponse {
 	private String token;
+	private Etudiant etudiant;
 }

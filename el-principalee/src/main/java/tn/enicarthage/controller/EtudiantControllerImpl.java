@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,16 +32,7 @@ public class EtudiantControllerImpl implements EtudiantController {
 		}
 	
 	
-	/*@Override
-	public ResponseEntity<String> addNewEtudiant(Map<String, String> requestMap) {
-		try {
-			return etuService.addNewEtudiant(requestMap);
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return new ResponseEntity<String>("{\"message\":\"something went wrong\"}",HttpStatus.INTERNAL_SERVER_ERROR);
 
-	}*/
 
 
 	@Override
@@ -56,6 +48,11 @@ public class EtudiantControllerImpl implements EtudiantController {
 		List<Etudiant> list = etuService.getAllEtudiant();
 		return list;
 	}
+	@Override
+	public Etudiant getEtudiant(String cin) {
+		return etuService.getEtudiantByCin(cin);
+		
+	}
 
 
 	@Override
@@ -69,5 +66,12 @@ public class EtudiantControllerImpl implements EtudiantController {
 	public String uploadFromCsv(MultipartFile file) throws Exception {
 		boolean uploadSuccess = etuService.uploadEtudiants(file);
 		return "Successful upload";
+	}
+
+
+	@Override
+	public String deleteReclamation(String cinEtudiant) {
+		String response = etuService.deleteEtudiantById(cinEtudiant);
+		return response;
 	}
 }

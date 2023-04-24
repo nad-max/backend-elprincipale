@@ -64,7 +64,7 @@ public class Etudiant implements Serializable, UserDetails  {
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="dateNaiss") 
-	@JsonFormat(pattern ="dd/MM/yyyy")
+	@JsonFormat(pattern ="dd/MM/yyyy",timezone = "Africa/Tunis")
 	private Date dateNaiss;
 	
 	@Column(name="numInsc") 

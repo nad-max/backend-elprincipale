@@ -52,7 +52,7 @@ public class Demande implements Serializable {
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="dateDemande")
-	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern ="dd/MM/yyyy :: HH:mm:ss")
+	@JsonFormat(pattern ="dd/MM/yyyy",timezone = "Africa/Tunis")
 	private Date dateDemande;
 	
 	@Column(name="raisonRefus") 
@@ -60,7 +60,7 @@ public class Demande implements Serializable {
 	
 	@Temporal(TemporalType.DATE) 
 	@Column(name="dateReponse") 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern ="dd/MM/yyyy :: HH:mm:ss")
+	@JsonFormat(pattern ="dd/MM/yyyy",timezone = "Africa/Tunis")
 	private Date dateReponse;
 	
 	
